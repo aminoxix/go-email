@@ -4,18 +4,18 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"main/interfaces"
+	"main/configs"
+	"main/models"
 	"main/services"
 	"net/http"
-	"os"
 	"text/template"
 )
 
 
 func EmailHandler(w http.ResponseWriter, r *http.Request) {
-	to := os.Getenv("TO_EMAIL")
-	from := os.Getenv("FROM_EMAIL")
-    password := os.Getenv("GMAIL_APP_PASSWORD")
+	to := configs.GetEnv("TO_EMAIL")
+	from := configs.GetEnv("FROM_EMAIL")
+    password := configs.GetEnv("GMAIL_APP_PASSWORD")
 
 	// convert to use just first element of slice
 	to_slice := []string{to}
@@ -27,7 +27,7 @@ func EmailHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	// parse JSON request
-	var requestBody interfaces.EmailRequestBody
+	var requestBody models.EmailRequestBody
 	err := json.NewDecoder(r.Body).Decode(&requestBody)
 	if err != nil {
 		http.Error(w, "bad request", http.StatusBadRequest)

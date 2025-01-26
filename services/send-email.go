@@ -1,13 +1,13 @@
 package services
 
 import (
+	"main/configs"
 	"net/smtp"
-	"os"
 )
 
 func SendEmail(from string, fromPassword string, to []string, subject string, htmlContent string) error {
-	fromEmailSMTP := os.Getenv("FROM_EMAIL_SMTP")
-	smtpAddress := os.Getenv("SMTP_ADDRESS")
+	fromEmailSMTP := configs.GetEnv("FROM_EMAIL_SMTP")
+	smtpAddress := configs.GetEnv("SMTP_ADDRESS")
 
 	auth := smtp.PlainAuth(
 		"",

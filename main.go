@@ -2,17 +2,14 @@ package main
 
 import (
 	"log"
+	"main/configs"
 	"main/handlers"
 	"net/http"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// Load environment variables
+	configs.LoadEnv()
 
 	bindAddress := ":8080"
 

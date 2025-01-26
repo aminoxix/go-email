@@ -1,4 +1,4 @@
-package interfaces
+package models
 
 type EmailRequestBody struct {
 	Template string    `json:"template"`
