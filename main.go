@@ -5,7 +5,10 @@ import (
 	"main/configs"
 	"main/handlers"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
+
 
 func main() {
 	// Load environment variables
@@ -13,10 +16,15 @@ func main() {
 
 	bindAddress := ":8080"
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.StatusHandler)
-	mux.HandleFunc("/send-email", handlers.EmailHandler)
+	mux := mux.NewRouter()
+	prefix := "/api/v0"
+
+	mux.HandleFunc(prefix, handlers.StatusHandler).Methods("GET")
+	mux.HandleFunc(prefix + "/send-email", handlers.EmailHandler).Methods("POST")
+
+	// Wrap the mux with the CORS middleware
+	handlerWithCORS := configs.EnableCORS(mux)
 
 	log.Printf("server is listening at %s", bindAddress)
-	log.Fatal(http.ListenAndServe(bindAddress, mux))
+	log.Fatal(http.ListenAndServe(bindAddress, handlerWithCORS))
 }
