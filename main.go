@@ -19,6 +19,7 @@ func main() {
 	mux := mux.NewRouter()
 	prefix := "/api/v0"
 
+	mux.HandleFunc("/", handlers.StatusHandler).Methods("GET")
 	mux.HandleFunc(prefix, handlers.StatusHandler).Methods("GET")
 	mux.HandleFunc(prefix + "/send-email", handlers.EmailHandler).Methods("POST")
 
